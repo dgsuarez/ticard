@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module Ticard
   class Card
 
@@ -7,6 +9,10 @@ module Ticard
       @content = content
       @stored_md5 = opts[:stored_md5]
       @url = opts[:url]
+    end
+
+    def current_md5
+      Digest::MD5.hexdigest(@content)
     end
 
   end
