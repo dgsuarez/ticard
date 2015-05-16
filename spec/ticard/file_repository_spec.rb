@@ -6,12 +6,6 @@ describe Ticard::FileRepository do
 
   subject(:repository) { Ticard::FileRepository.new }
 
-  describe "#path" do
-    it "transforms a trello URL into a file name" do
-      expect(repository.path(card)).to eq "welcome-to-trello_esKj234M.md"
-    end
-  end
-
   describe "#get" do
     it "reads a card from a file given its path" do
       content = File.read("spec/assets/card.md")
@@ -22,6 +16,13 @@ describe Ticard::FileRepository do
   end
 
   describe "#put" do
+
+    it "saves to a file name including both id and name" do
+      expect(File).to receive(:open).with("welcome-to-trello_esKj234M.md", "w")
+
+      repository.put(card)
+    end
+
     it "serializes the card and saves it to file" do
       f = double(File)
       expect(f).to receive(:<<).with(/welcome-to-trello/)
