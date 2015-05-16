@@ -31,11 +31,11 @@ class TicardCLI < Thor
   end
 
   def trello_repo
-    @_trello_repo ||= TrelloRepository.new(trello_credentials)
+    @_trello_repo ||= Ticard::TrelloRepository.new(trello_credentials)
   end
 
   def file_repo
-    @_file_repo ||= FileRepository.new
+    @_file_repo ||= Ticard::FileRepository.new
   end
 
   def trello_credentials
