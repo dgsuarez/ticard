@@ -19,6 +19,10 @@ module Ticard
       @stored_md5 == other_card.stored_md5
     end
 
+    def as_stored
+      Card.new(@content, :url => @url, :stored_md5 => current_md5)
+    end
+
   end
 end
 
