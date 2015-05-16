@@ -5,8 +5,8 @@ module Ticard
 
     def initialize(credentials={})
       Trello.configure do |config|
-        config.developer_public_key = credentials[:developer_public_key]
-        config.member_token = credentials[:member_token]
+        config.developer_public_key = credentials["developer_public_key"]
+        config.member_token = credentials["member_token"]
       end
     end
 

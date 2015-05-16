@@ -34,8 +34,8 @@ module Ticard
     end
 
     def self.trello_credentials
-      path = %w(~/.trello.yml trello.yml).detect { |p| File.exist?(p) }
-      YAML.load_path(path)
+      %w(PWD HOME).map { |e| "#{ENV[e]}/.ticard.yml" }.detect { |p| File.exist?(p) }
+      YAML.load_path(path)["keys"]
     end
 
   end
