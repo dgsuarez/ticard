@@ -2,10 +2,11 @@ module Ticard
   class FileRepository < LocalRepository
 
     def path(card)
-      regex = /\/c\/(.*?)$/
-      parts = regex.match(card.url)[1]
-      base_name = parts.gsub("/","-")
-      "#{base_name}.md"
+      regex = /\/c\/(.+?)\/\d*-?(.*?)\/?$/
+      match = regex.match(card.url)
+      id = match[1]
+      name = match[2]
+      "#{name}_#{id}.md"
     end
 
     protected

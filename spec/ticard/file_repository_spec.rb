@@ -8,15 +8,15 @@ describe Ticard::FileRepository do
 
   describe "#path" do
     it "transforms a trello URL into a file name" do
-      expect(repository.path(card)).to eq "esKj234M-1-welcome-to-trello.md"
+      expect(repository.path(card)).to eq "welcome-to-trello_esKj234M.md"
     end
   end
 
   describe "#get" do
     it "reads a card from a file given its path" do
       content = File.read("spec/assets/card.md")
-      allow(File).to receive(:read).with("esKj234M-1-welcome-to-trello.md").and_return(content)
-      read_card = repository.get("esKj234M-1-welcome-to-trello.md")
+      allow(File).to receive(:read).with("welcome-to-trello_esKj234M.md").and_return(content)
+      read_card = repository.get("welcome-to-trello_esKj234M.md")
       expect(read_card.content).to eql "I'm a text for the whatever\n" 
     end
   end
