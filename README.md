@@ -1,28 +1,41 @@
 # Ticard
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ticard`. To experiment with that code, run `bin/console` for an interactive prompt.
+Easily work with Trello cards from your own text editor:
 
-TODO: Delete this and the text above, and describe your gem
+~~~bash
+$ ticard pull http://trello.com/c/a2343423/my-card
+$ vi a2343423-my-card.md
+...
+$ ticard push a2343423-my-card.md
+~~~
 
 ## Installation
 
-Add this line to your application's Gemfile:
+~~~bash
+$ gem install ticard
+~~~
 
-```ruby
-gem 'ticard'
-```
+Ticard needs trello read/write credentials in order to work. Create
+a `.ticard.yml` file in `$HOME` or the directory you'll be working from.
 
-And then execute:
+~~~yaml
+keys:
+  developer_public_key:  'KEY'
+  member_token:  'TOKEN'
+~~~
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ticard
+To get the key and token, follow the steps given in [ruby-trello's
+README](https://github.com/jeremytregunna/ruby-trello#configuration).
 
 ## Usage
 
-TODO: Write usage instructions here
+* `ticard pull URL` to download the description of the card to a file
+* `ticard push PATH` to upload the updated description.
+
+The file created by `ticard pull` has an html comment with metadata at the
+top, this allows `ticard push` to save and check if modifications have been
+made to the card, so mess with them at your own risk :shit:
+    
 
 ## Development
 
