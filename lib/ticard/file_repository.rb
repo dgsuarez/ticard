@@ -14,7 +14,7 @@ module Ticard
     end
 
     def put(card)
-      content = Serializer.new(card).serialize
+      content = Serializer.new(card.as_stored).serialize
       File.open(path(card), 'w') { |f| f << content }
     end
 

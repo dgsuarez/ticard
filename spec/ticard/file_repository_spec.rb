@@ -29,6 +29,14 @@ describe Ticard::FileRepository do
 
       repository.put(card)
     end
+
+    it "saves the new md5 in the file" do
+      f = double(File)
+      f.should_receive(:<<).with(/md5 656400/)
+      File.stub(:open).and_yield(f)
+
+      repository.put(card)
+    end
   end
 
 end
