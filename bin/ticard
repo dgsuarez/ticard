@@ -1,0 +1,51 @@
+#! /usr/bin/env ruby
+
+require 'ticard'
+require 'thor'
+
+class TicardCLI < Thor
+
+  desc "create CARD-URL", "creates a new file with the card's contents"
+  def create(url)
+    card = trello_repo.get(url)
+    file_repo.put(card)
+  end
+
+  desc "save CARD-FILE", "synchronizes the card's contents in trello"
+  options :force
+  def save(path)
+    local_card = file_repo.get(path)
+    remote_card = trello_repo.get(card.path)
+    if options[:force] || local_card.from_same_content_as?(remote_card) || confirm_overwrite
+      trello_repo.put(card)
+      file_repo.put(card)
+    end
+  end
+
+  private
+
+  def confirm_overwrite
+    puts "Card has been changed since downloaded, save anyway? (y/N)"
+    resp = gets.chomp
+    resp.downcase == "y"
+  end
+
+  def trello_repo
+    @_trello_repo ||= TrelloRepository.new(trello_credentials)
+  end
+
+  def file_repo
+    @_file_repo ||= FileRepository.new
+  end
+
+  def trello_credentials
+    %w(PWD HOME).map { |e| "#{ENV[e]}/.ticard.yml" }.detect { |p| File.exist?(p) }
+    YAML.load_path(path)["keys"]
+  end
+
+
+end
+
+TicardCLI.start(ARGV)
+
+
