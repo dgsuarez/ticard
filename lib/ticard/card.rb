@@ -12,7 +12,7 @@ module Ticard
     end
 
     def current_md5
-      Digest::MD5.hexdigest(@content)
+      Digest::MD5.hexdigest(@content.strip)
     end
 
     def from_same_content_as?(other_card)
