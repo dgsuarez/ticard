@@ -26,9 +26,7 @@ class TicardCLI < Thor
   private
 
   def confirm_overwrite
-    puts "Card has been changed since downloaded, save anyway? (y/N)"
-    resp = gets.chomp
-    resp.downcase == "y"
+    yes?("Card has been changed since downloaded, save anyway?")
   end
 
   def trello_repo
