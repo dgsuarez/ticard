@@ -9,7 +9,7 @@ describe Ticard::TrelloRepository do
   subject(:repository) { Ticard::TrelloRepository.new }
 
   before :each do
-    Trello::Card.stub(:find).with("esKj234M").and_return(fake_card)
+    allow(Trello::Card).to receive(:find).with("esKj234M").and_return(fake_card)
   end
 
   describe "#get" do

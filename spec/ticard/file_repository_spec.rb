@@ -15,7 +15,7 @@ describe Ticard::FileRepository do
   describe "#get" do
     it "reads a card from a file given its path" do
       content = File.read("spec/assets/card.md")
-      File.stub(:read).with("esKj234M-1-welcome-to-trello.md").and_return(content)
+      allow(File).to receive(:read).with("esKj234M-1-welcome-to-trello.md").and_return(content)
       read_card = repository.get("esKj234M-1-welcome-to-trello.md")
       expect(read_card.content).to eql "I'm a text for the whatever\n" 
     end
@@ -24,16 +24,16 @@ describe Ticard::FileRepository do
   describe "#put" do
     it "serializes the card and saves it to file" do
       f = double(File)
-      f.should_receive(:<<).with(/welcome-to-trello/)
-      File.stub(:open).and_yield(f)
+      expect(f).to receive(:<<).with(/welcome-to-trello/)
+      allow(File).to receive(:open).and_yield(f)
 
       repository.put(card)
     end
 
     it "saves the new md5 in the file" do
       f = double(File)
-      f.should_receive(:<<).with(/md5 656400/)
-      File.stub(:open).and_yield(f)
+      expect(f).to receive(:<<).with(/md5 656400/)
+      allow(File).to receive(:open).and_yield(f)
 
       repository.put(card)
     end
