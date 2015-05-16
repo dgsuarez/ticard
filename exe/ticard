@@ -12,7 +12,7 @@ class TicardCLI < Thor
   end
 
   desc "save CARD-FILE", "synchronizes the card's contents in trello"
-  options :force
+  option :force
   def save(path)
     local_card = file_repo.get(path)
     remote_card = trello_repo.get(card.path)
