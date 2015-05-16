@@ -6,15 +6,15 @@ require 'yaml'
 
 class TicardCLI < Thor
 
-  desc "create CARD-URL", "creates a new file with the card's contents"
-  def create(url)
+  desc "pull CARD-URL", "creates a new file with the card's contents"
+  def pull(url)
     card = trello_repo.get(url)
     file_repo.put(card)
   end
 
-  desc "save CARD-FILE", "synchronizes the card's contents in trello"
+  desc "push CARD-FILE", "synchronizes the card's contents in trello"
   option :force
-  def save(path)
+  def push(path)
     local_card = file_repo.get(path)
     remote_card = trello_repo.get(local_card.url)
     if options[:force] || local_card.from_same_content_as?(remote_card) || confirm_overwrite
