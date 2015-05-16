@@ -9,17 +9,18 @@ class TicardCLI < Thor
   desc "pull CARD-URL", "creates a new file with the card's contents"
   def pull(url)
     card = trello_repo.get(url)
-    file_repo.put(card)
+    local_out_repo.put(card)
   end
 
   desc "push CARD-FILE", "synchronizes the card's contents in trello"
   option :force
-  def push(path)
-    local_card = file_repo.get(path)
+  def push(path=nil)
+    local_in_repo = path ? file_repo : piped_repo
+    local_card = local_in_repo.get(path)
     remote_card = trello_repo.get(local_card.url)
     if options[:force] || local_card.from_same_content_as?(remote_card) || confirm_overwrite
       trello_repo.put(local_card)
-      file_repo.put(local_card)
+      local_out_repo.put(local_card)
     end
   end
 
@@ -33,8 +34,16 @@ class TicardCLI < Thor
     @_trello_repo ||= Ticard::TrelloRepository.new(trello_credentials)
   end
 
+  def local_out_repo
+    STDOUT.tty? ? file_repo : piped_repo
+  end
+
   def file_repo
     @_file_repo ||= Ticard::FileRepository.new
+  end
+
+  def piped_repo
+    @_piped_repo ||= Ticard::FdRepository.new(STDIN, STDOUT)
   end
 
   def trello_credentials
