@@ -6,9 +6,7 @@ module Ticard
     end
 
     def parse
-      { :url => metadata("url"), 
-        :md5 => metadata("md5"), 
-        :content => content }
+      Card.new(content, :url => metadata("url"), :stored_md5 => metadata("md5"))
     end
 
     def content
@@ -17,7 +15,7 @@ module Ticard
     end
 
     def metadata(field)
-      regex = /.*<!---.*#{field} (.+?)$.*-->.+/m
+      regex = /.*<!---.*?^\b*#{field} (.+?)$.*-->.+/m
       regex.match(@text)[1]
     end
 

@@ -2,6 +2,7 @@ require 'httparty'
 
 require "ticard/version"
 require "ticard/parser"
+require "ticard/card"
 
 module Ticard
 
