@@ -15,6 +15,10 @@ module Ticard
       Digest::MD5.hexdigest(@content)
     end
 
+    def from_same_content_as?(other_card)
+      @stored_md5 == other_card.stored_md5
+    end
+
   end
 end
 
