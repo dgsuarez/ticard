@@ -16,10 +16,10 @@ class TicardCLI < Thor
   option :force
   def save(path)
     local_card = file_repo.get(path)
-    remote_card = trello_repo.get(card.path)
+    remote_card = trello_repo.get(local_card.url)
     if options[:force] || local_card.from_same_content_as?(remote_card) || confirm_overwrite
-      trello_repo.put(card)
-      file_repo.put(card)
+      trello_repo.put(local_card)
+      file_repo.put(local_card)
     end
   end
 
