@@ -2,6 +2,7 @@
 
 require 'ticard'
 require 'thor'
+require 'yaml'
 
 class TicardCLI < Thor
 
@@ -39,8 +40,8 @@ class TicardCLI < Thor
   end
 
   def trello_credentials
-    %w(PWD HOME).map { |e| "#{ENV[e]}/.ticard.yml" }.detect { |p| File.exist?(p) }
-    YAML.load_path(path)["keys"]
+    path = %w(PWD HOME).map { |e| "#{ENV[e]}/.ticard.yml" }.detect { |p| File.exist?(p) }
+    YAML.load_file(path)["keys"]
   end
 
 
