@@ -1,5 +1,5 @@
 module Ticard
-  class FileRepository
+  class FileRepository < LocalRepository
 
     def path(card)
       regex = /\/c\/(.*?)$/
@@ -8,14 +8,14 @@ module Ticard
       "#{base_name}.md"
     end
 
-    def get(card_path)
-      content = File.read(card_path)
-      Parser.new(content).parse
+    protected
+
+    def read(card_path)
+      File.read(card_path)
     end
 
-    def put(card)
-      content = Serializer.new(card.as_stored).serialize
-      File.open(path(card), 'w') { |f| f << content }
+    def write(card, &b)
+      File.open(path(card), 'w', &b)
     end
 
   end
