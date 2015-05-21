@@ -7,7 +7,8 @@ module Ticard
     end
 
     def serialize
-      template = ERB.new(File.read("lib/ticard/card.md.erb"))
+      erb_path = File.join(File.dirname(File.expand_path(__FILE__)), 'card.md.erb')
+      template = ERB.new(File.read(erb_path))
       template.result(@card.instance_eval { binding })
     end
   end
