@@ -35,7 +35,10 @@ README](https://github.com/jeremytregunna/ruby-trello#configuration).
 The file created by `ticard pull` has an html comment with metadata at the
 top, this allows `ticard push` to save and check if modifications have been
 made to the card, so mess with them at your own risk :shit:
-    
+
+## Editor support
+
+* [Vim](https://github.com/dgsuarez/vim-ticard)
 
 ## Development
 
