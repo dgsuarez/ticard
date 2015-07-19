@@ -15,8 +15,7 @@ class TicardCLI < Thor
   desc "push CARD-FILE", "synchronizes the card's contents in trello"
   option :force
   def push(path=nil)
-    local_in_repo = path ? file_repo : piped_repo
-    local_card = local_in_repo.get(path)
+    local_card = card_from_local_repo(path)
     remote_card = trello_repo.get(local_card.url)
     if options[:force] || local_card.from_same_content_as?(remote_card) || confirm_overwrite
       trello_repo.put(local_card)
@@ -24,7 +23,22 @@ class TicardCLI < Thor
     end
   end
 
+  desc "check CARD-PATH", "checks wether there are any changes in the card"
+  def check(path=nil)
+    local_card = card_from_local_repo(path)
+    remote_card = trello_repo.get(local_card.url)
+    unless local_card.from_same_content_as?(remote_card)
+      puts "Card has been changed"
+      exit 1
+    end
+  end
+
   private
+
+  def card_from_local_repo(path)
+    local_in_repo = path ? file_repo : piped_repo
+    local_in_repo.get(path)
+  end
 
   def confirm_overwrite
     yes?("Card has been changed since downloaded, save anyway?")
